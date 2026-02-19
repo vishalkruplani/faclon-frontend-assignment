@@ -1,0 +1,97 @@
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  font-family: 'Inter', sans-serif;
+
+  .chart-title {
+    margin: 0 0 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    letter-spacing: -0.02em;
+  }
+
+  .chart-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .axis-labels text {
+    font-family: inherit;
+    font-weight: 500;
+  }
+
+  .bar-rect {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+      opacity: 0.85;
+      transform: scaleY(1.02); 
+    }
+  }
+
+  .line-path {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: dash 2s ease-out forwards;
+  }
+
+  .line-point {
+    transition: transform 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      transform: scale(1.5);
+    }
+  }
+
+  .pie-slice {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+    transform-origin: center;
+
+    &:hover {
+      transform: scale(1.05);
+      z-index: 10;
+    }
+  }
+
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 24px;
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+      color: #666;
+      font-weight: 500;
+
+      .color-box {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

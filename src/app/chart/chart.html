@@ -1,0 +1,83 @@
+<div class="chart-wrapper">
+  <h3 class="chart-title">{{ chartOptions.title }}</h3>
+
+  <svg class="chart-svg" [attr.viewBox]="'0 0 ' + width + ' ' + height" preserveAspectRatio="xMidYMid meet"
+    role="img" [attr.aria-labelledby]="titleId + ' ' + descId" tabindex="0">
+    <title [attr.id]="titleId">{{ chartOptions.title }}</title>
+    <desc [attr.id]="descId">{{ chartOptions.type }} chart with {{ chartOptions.series.length }} series</desc>
+
+    <!-- Y Axis Labels -->
+    <g *ngIf="chartOptions.type !== 'pie'" class="axis-labels">
+      <text x="0" [attr.y]="height - padding" font-size="12" fill="#666">0</text>
+      <text x="0" [attr.y]="padding" font-size="12" fill="#666">{{ maxDataValue | number:'1.0-0' }}</text>
+    </g>
+
+    <!-- Column Chart -->
+    <g *ngIf="chartOptions.type === 'column'">
+      <!-- Axes -->
+      <line [attr.x1]="padding" [attr.y1]="height - padding" [attr.x2]="width - padding" [attr.y2]="height - padding"
+        stroke="#e0e0e0" stroke-width="1" />
+      <line [attr.x1]="padding" [attr.y1]="padding" [attr.x2]="padding" [attr.y2]="height - padding" stroke="#e0e0e0"
+        stroke-width="1" />
+
+      <!-- Bars -->
+      <rect *ngFor="let s of chartOptions.series; let i = index"
+        [attr.x]="padding + (i * ((width - padding * 2) / chartOptions.series.length)) + 10"
+        [attr.y]="height - padding - getBarHeight(s.value)" [attr.width]="columnWidth"
+        [attr.height]="getBarHeight(s.value)" [attr.fill]="s.color" rx="2" class="bar-rect">
+        <title>{{ s.name }}: {{ s.value }}</title>
+      </rect>
+
+      <!-- X Axis Labels -->
+      <text *ngFor="let s of chartOptions.series; let i = index"
+        [attr.x]="padding + (i * ((width - padding * 2) / chartOptions.series.length)) + 10 + (columnWidth / 2)"
+        [attr.y]="height - padding + 20" text-anchor="middle" font-size="12" fill="#666">
+        {{ s.name }}
+      </text>
+    </g>
+
+    <!-- Line Chart -->
+    <g *ngIf="chartOptions.type === 'line'">
+      <!-- Grid Lines -->
+      <line [attr.x1]="padding" [attr.y1]="height - padding" [attr.x2]="width - padding" [attr.y2]="height - padding"
+        stroke="#e0e0e0" stroke-width="1" />
+      <line [attr.x1]="padding" [attr.y1]="padding" [attr.x2]="padding" [attr.y2]="height - padding" stroke="#e0e0e0"
+        stroke-width="1" />
+
+      <!-- Path -->
+      <polyline [attr.points]="linePoints" fill="none" stroke="#222" stroke-width="3" stroke-linecap="round"
+        stroke-linejoin="round" class="line-path" />
+
+      <!-- Points -->
+      <circle *ngFor="let s of chartOptions.series; let i = index"
+        [attr.cx]="padding + (i * ((width - padding*2) / (chartOptions.series.length - 1)))"
+        [attr.cy]="height - padding - ((s.value / maxDataValue) * (height - padding*2))" r="6" [attr.fill]="s.color"
+        stroke="white" stroke-width="2" class="line-point">
+        <title>{{ s.name }}: {{ s.value }}</title>
+      </circle>
+
+      <!-- X Axis Labels -->
+      <text *ngFor="let s of chartOptions.series; let i = index"
+        [attr.x]="padding + (i * ((width - padding*2) / (chartOptions.series.length - 1)))"
+        [attr.y]="height - padding + 20" text-anchor="middle" font-size="12" fill="#666">
+        {{ s.name }}
+      </text>
+    </g>
+
+    <!-- Pie Chart -->
+    <g *ngIf="chartOptions.type === 'pie'">
+      <path *ngFor="let slice of pieSlices" [attr.d]="slice.d" [attr.fill]="slice.color" stroke="white" stroke-width="2"
+        class="pie-slice">
+        <title>{{ slice.name }}: {{ slice.value }}</title>
+      </path>
+    </g>
+
+  </svg>
+
+  <div class="chart-legend">
+    <div *ngFor="let s of chartOptions.series" class="legend-item">
+      <span class="color-box" [style.background-color]="s.color"></span>
+      <span>{{ s.name }}</span>
+    </div>
+  </div>
+</div>
