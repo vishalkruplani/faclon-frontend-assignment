@@ -242,9 +242,17 @@ npm run format
 
 The project includes screenshots of all three supported chart types:
 
-- **Line Chart** - [chart-1.png](screenshots/chart-1.png)
-- **Column Chart** - [chart-2.png](screenshots/chart-2.png)
-- **Pie Chart** - [chart-3.png](screenshots/chart-3.png)
+### Line Chart
+
+![Line Chart](./screenshots/chart-1.png)
+
+### Column Chart
+
+![Column Chart](./screenshots/chart-2.png)
+
+### Pie Chart
+
+![Pie Chart](./screenshots/chart-3.png)
 
 ---
 
